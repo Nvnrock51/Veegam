@@ -1,0 +1,101 @@
+Installation of Wordpress application:
+
+1. Launch Aws Ec2 instance and free tier ubuntu
+2. In putty try to connect ec2 instance using key pair 
+3. After connecting 
+4. Update and upgrade the ubuntu using apt-update & apt-upgrade
+5. Next try to install apache2 in ubuntu machine 
+   apt install apache2 
+
+To check whether apache2 is installed in ubuntu machine or not 
+   Systemctl status apache2
+   
+verify the apache2 in browser by public ip
+
+6. Install Mysql in ubuntu machine to create database and wordpress files
+    apt install mariadb-server mariadb-client
+
+
+Let’s now secure our MariaDB database engine and disallow remote root login.
+
+mysql_secure_installation
+
+i. change password
+ii. remove anonymous users
+iii. Disallow remote login remotely
+iv. Remove test database and access to it
+v. Reload previlege tables 
+
+
+7. Install Php in ubuntu machine as the last component of the LAMP stack.(Linux, Apache,Mysql,PhP)
+   apt install php php-mysql
+
+To confirm that PHP is installed , created a info.php file at /var/www/html/ path
+vim /var/www/html/info.php
+
+Append the following lines:
+
+<?php
+phpinfo();
+?>
+
+Save and Exit. Open your browser and append /info.php to the server’s URL.
+
+https://ip-address/info.php
+
+
+8. Now create wordpress database as root and create a database for accommodating our WordPress data.
+
+$ mysql -u root -p
+
+
+Create a database for our WordPress installation.
+
+CREATE DATABASE wordpress_db;
+
+Next, create a database user for our WordPress setup.
+
+CREATE USER 'wp_user'@'localhost' IDENTIFIED BY 'password';
+
+Grant privileges to the user Next, grant the user permissions to access the database
+
+GRANT ALL ON wordpress_db.* TO 'wp_user'@'localhost' IDENTIFIED BY 'password';
+
+Great, now you can exit the database.
+
+FLUSH PRIVILEGES;
+
+Exit;
+
+9. Now install wordpress CMS
+
+Go to your temp directory and download the latest WordPress File
+
+cd /tmp && wget https://wordpress.org/latest.tar.gz
+
+now try to extract this tar file
+tar -xvf latest.tar.gz
+
+Copy the wordpress folder to /var/www/html/ path.
+
+cp -R wordpress /var/www/html/
+Run the command below to change ownership of ‘wordpress’ directory.
+
+chown -R www-data:www-data /var/www/html/wordpress/
+change File permissions of the WordPress folder.
+
+chmod -R 755 /var/www/html/wordpress/
+Create ‘uploads’ directory.
+
+$ mkdir /var/www/html/wordpress/wp-content/uploads
+Finally, change permissions of ‘uploads’ directory.
+
+chown -R www-data:www-data /var/www/html/wordpress/wp-content/uploads/
+Open your browser and go to the server’s URL. In my case it’s
+
+https://server-ip/wordpress
+
+
+Now your wordpress wizard have been set up successfully
+
+Try to add details in it and create a user by entering the details and login with those credentials in order to use that wordpress website   
